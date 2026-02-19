@@ -530,7 +530,7 @@ $stats = [
     <div class="container">
         <div class="header">
             <h1><?= htmlspecialchars(SITE_NAME) ?></h1>
-            <form action="logout.php" method="get">
+            <form action="loader.php?page=logout" method="get">
                 <button type="submit" class="action-btn" style="background-color: var(--accent-blue);">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </button>
@@ -540,10 +540,10 @@ $stats = [
         <!-- Quick Actions -->
         <div class="quick-actions">
             <div class="action-buttons">
-                <a href="add_request.php" class="action-btn add-btn">
+                <a href="loader.php?page=add_request" class="action-btn add-btn">
                     <i class="fas fa-plus"></i> Add Service
                 </a>
-                <a href="warranty.php" class="action-btn warranty-btn" title="Warranty Services">
+                <a href="loader.php?page=warranty" class="action-btn warranty-btn" title="Warranty Services">
                     <i class="fas fa-shield-alt"></i>
                 </a>
             </div>
