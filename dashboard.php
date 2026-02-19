@@ -528,14 +528,12 @@ $stats = [
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1><?= htmlspecialchars(SITE_NAME) ?></h1>
-            <form action="loader.php?page=logout" method="get">
-                <button type="submit" class="action-btn" style="background-color: var(--accent-blue);">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
-            </form>
-        </div>
+    <div class="header">
+        <h1><?= htmlspecialchars(SITE_NAME) ?></h1>
+        <a href="loader.php?page=logout" class="action-btn" style="background-color: var(--accent-blue); text-decoration: none; color: white; padding: 0.75rem 1.25rem; border-radius: 0.5rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
 
         <!-- Quick Actions -->
         <div class="quick-actions">
