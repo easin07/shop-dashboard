@@ -229,7 +229,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container">
         <div class="header">
             <h1>إضافة خدمة جديدة</h1>
-            <a href="dashboard.php" class="back-btn">
+            <a href="loader.php?page=dashboard" class="back-btn">
                 <i class="fas fa-arrow-left"></i> Back
             </a>
         </div>
@@ -409,4 +409,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         });
     </script>
 </body>
+
 </html
