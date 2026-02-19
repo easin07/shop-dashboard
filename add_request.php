@@ -1,6 +1,5 @@
- <?php
- 
- require_once('/home/gmpsvasy/public_html/config.php');
+<?php
+require_once('/home/gmpsvasy/public_html/config.php');
 
 // Set headers for UTF-8
 header('Content-Type: text/html; charset=utf-8');
@@ -9,8 +8,6 @@ header('Content-Type: text/html; charset=utf-8');
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
-require_once __DIR__ . '/config.php';
 
 if (!isLoggedIn()) {
     header('Location: index.php');
@@ -61,8 +58,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $token
         ]);
 
-        // Show success message and clear form
+        // Show success message
         $success = "Service added successfully! Token: $token";
+        
+        // Auto-redirect to dashboard after 2 seconds
+        echo '<script>
+            setTimeout(function() {
+                window.location.href = "loader.php?page=dashboard";
+            }, 2000);
+        </script>';
+        
         $_POST = []; // Clear form
         
     } catch(PDOException $e) {
@@ -247,7 +252,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             <?php endif; ?>
 
-            <form method="POST" action="" id="serviceForm">
+            <form method="POST" action="loader.php?page=add_request" id="serviceForm">
                 <div class="form-group">
                     <label for="customer_name">(اسم العميل) Customer Name *</label>
                     <input type="text" id="customer_name" name="customer_name" 
@@ -409,5 +414,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         });
     </script>
 </body>
-
-</html
+</html>
