@@ -866,7 +866,7 @@ document.querySelectorAll('.status-select').forEach(select => {
         this.disabled = true;
         
         // First update the status in database
-        fetch('dashboard.php', {
+        fetch('api.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -933,7 +933,7 @@ document.querySelectorAll('.status-select').forEach(select => {
                     this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
                     this.disabled = true;
                     
-                    fetch('dashboard.php', {
+                    fetch('api.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
