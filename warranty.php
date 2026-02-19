@@ -1,21 +1,16 @@
- <?php
- require_once('/home/gmpsvasy/public_html/config.php');
-// Enable error reporting
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-require_once __DIR__ . '/config.php';
+<?php
+// warranty.php - This file is on GitHub
+require_once('/home/gmpsvasy/public_html/config.php');
 
 if (!isLoggedIn()) {
     header('Location: index.php');
     exit;
 }
 
-// Set timezone (adjust to your location)
+// Set timezone
 date_default_timezone_set('Asia/Riyadh');
 
-// Search functionality
+// Search functionality - UPDATED to work with loader
 $search = $_GET['search'] ?? '';
 
 // Get warranty services (completed in last 7 days)
@@ -160,6 +155,13 @@ $warrantyRequests = $stmt->fetchAll();
 
         .whatsapp-btn {
             background-color: var(--whatsapp-green);
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            color: white;
+            border-radius: 0.25rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .warranty-period {
@@ -191,14 +193,15 @@ $warrantyRequests = $stmt->fetchAll();
     <div class="container">
         <div class="header">
             <h1>Warranty Services</h1>
-            <a href="dashboard.php" class="back-btn">
+            <a href="loader.php?page=dashboard" class="back-btn">
                 <i class="fas fa-arrow-left"></i> Back to Dashboard
             </a>
         </div>
 
-        <!-- Search Bar -->
+        <!-- Search Bar - FIXED: Now points to loader.php -->
         <div class="search-container">
-            <form method="GET" action="">
+            <form method="GET" action="loader.php">
+                <input type="hidden" name="page" value="warranty">
                 <input type="text" name="search" class="search-bar" 
                        placeholder="Search warranty services by name, number, or token..." 
                        value="<?= htmlspecialchars($search) ?>">
@@ -213,9 +216,9 @@ $warrantyRequests = $stmt->fetchAll();
         <table class="requests-table">
             <thead>
                 <tr>
-                    <th>Token(رقم)</th>
-                    <th>Customer(اسم العميل)</t
-                    <th>Device(جهاز)</th
+                    <th>Token (رقم)</th>
+                    <th>Customer (اسم العميل)</th>
+                    <th>Device (جهاز)</th>
                     <th>Completed</th>
                     <th>Warranty Until</th>
                     <th>Action</th>
@@ -224,7 +227,7 @@ $warrantyRequests = $stmt->fetchAll();
             <tbody>
                 <?php if (empty($warrantyRequests)): ?>
                     <tr>
-                        <td colspan="6" style="text-align: center;">
+                        <td colspan="6" style="text-align: center; padding: 2rem;">
                             لم يتم العثور على خدمات ضمان نشطة في آخر 7 أيام
                         </td>
                     </tr>
@@ -246,10 +249,10 @@ $warrantyRequests = $stmt->fetchAll();
                         </td>
                         <td><?= date('d M Y', strtotime($request['warranty_end'])) ?></td>
                         <td>
-                            <button class="action-btn whatsapp-btn" 
-                                    onclick="window.open('https://wa.me/<?= ltrim($request['whatsapp_number'], '0') ?>?text=<?= urlencode("Hello " . $request['customer_name'] . ", بخصوص ضمانك لـِـ " . $request['device_type'] . " (Token: " . $request['service_token'] . ").الضمان ساري حتىl " . date('d M Y', strtotime($request['warranty_end'])) . ". " . ($request['days_remaining'] <= 2 ? "⚠️ الضمان يوشك على الانتهاء!" : "")) ?>', '_blank')">
+                            <a href="https://wa.me/<?= ltrim($request['whatsapp_number'], '0') ?>?text=<?= urlencode("Hello " . $request['customer_name'] . ", بخصوص ضمانك لـِـ " . $request['device_type'] . " (Token: " . $request['service_token'] . "). الضمان ساري حتى " . date('d M Y', strtotime($request['warranty_end'])) . ". " . ($request['days_remaining'] <= 2 ? "⚠️ الضمان يوشك على الانتهاء!" : "")) ?>" 
+                               class="whatsapp-btn" target="_blank">
                                 <i class="fab fa-whatsapp"></i> Contact
-                            </button>
+                            </a>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -258,4 +261,4 @@ $warrantyRequests = $stmt->fetchAll();
         </table>
     </div>
 </body>
-</html
+</html>
