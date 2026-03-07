@@ -117,8 +117,7 @@ if ($currentHour >= 15 || $currentHour < 3) {
 $stats = [
     'today_earnings' => $todayEarnings,
     'pending_count' => count($requests['Pending']),
-    'in_progress_count' => count($requests['In Progress']),
-    'debug_info' => $debugInfo
+    'in_progress_count' => count($requests['In Progress'])
 ];
 ?>
 <!DOCTYPE html>
@@ -547,7 +546,6 @@ $stats = [
             <div class="mini-stat">
                 <h3>Today | اليوم</h3>
                 <p><?= number_format($stats['today_earnings'], 2) ?> SAR</p>
-                <small style="color: #94a3b8; font-size: 0.6rem;"><?= $stats['debug_info'] ?></small>
             </div>
             <div class="mini-stat">
                 <h3>Pending | قيد الإصلاح</h3>
