@@ -81,43 +81,38 @@ $requests = [
 // Set Saudi Arabia timezone
 date_default_timezone_set('Asia/Riyadh');
 
-// Calculate current date and time in Riyadh
-$currentHour = date('H');
-$currentDate = date('Y-m-d');
-
-// Business calculator: ONLY show price if service completed during 3PM-2AM Saudi time
-// Set Saudi Arabia timezone
-date_default_timezone_set('Asia/Riyadh');
-
-// Calculate current date and time in Riyadh
+// Current Riyadh time
 $currentHour = intval(date('H'));
 $currentDate = date('Y-m-d');
 
-// Simple logic: If current time is between 3PM-2AM, show earnings for current business window
-if ($currentHour >= 15 || $currentHour < 2) {
-    // Business hours active
+// Business calculator: ONLY show price if service completed during 3PM–3AM Saudi time
+
+if ($currentHour >= 15 || $currentHour < 3) {
+
     if ($currentHour >= 15) {
-        // After 3PM: count from today 3PM to tomorrow 2AM
+        // After 3PM: today 3PM → tomorrow 3AM
         $startDate = $currentDate . ' 15:00:00';
-        $endDate = date('Y-m-d', strtotime('+1 day')) . ' 02:00:00';
+        $endDate = date('Y-m-d', strtotime('+1 day')) . ' 03:00:00';
+
     } else {
-        // Before 2AM: count from yesterday 3PM to today 2AM
+        // Before 3AM: yesterday 3PM → today 3AM
         $startDate = date('Y-m-d', strtotime('-1 day')) . ' 15:00:00';
-        $endDate = $currentDate . ' 02:00:00';
+        $endDate = $currentDate . ' 03:00:00';
     }
-    
-    $todayEarnings = $pdo->query("SELECT IFNULL(SUM(price), 0) FROM service_requests 
-                                  WHERE status = 'Done' 
-                                  AND completion_date IS NOT NULL 
-                                  AND completion_date >= '$startDate' 
-                                  AND completion_date <= '$endDate'")->fetchColumn();
+
+    $todayEarnings = $pdo->query("
+        SELECT IFNULL(SUM(price),0) 
+        FROM service_requests 
+        WHERE status = 'Done'
+        AND completion_date IS NOT NULL
+        AND completion_date >= '$startDate'
+        AND completion_date <= '$endDate'
+    ")->fetchColumn();
+
 } else {
-    // Outside business hours (2AM-3PM): show 0
+    // Outside business hours (3AM–3PM)
     $todayEarnings = 0;
 }
-
-// Debug info
-$debugInfo = "Current: " . date('Y-m-d H:i:s') . " | Hour: $currentHour | Earnings: $todayEarnings";
 
 $stats = [
     'today_earnings' => $todayEarnings,
